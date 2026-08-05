@@ -185,6 +185,11 @@
     font-size:12.5px;color:var(--gray);line-height:1.8;margin-bottom:12px;
   }
   .notice-intro b{color:var(--ink);}
+  .reminder-box{
+    background:var(--yellow-soft);border:1.5px solid var(--yellow);border-radius:12px;
+    padding:11px 14px;margin-bottom:14px;font-size:13px;font-weight:700;color:#8a6d1f;
+    text-align:center;
+  }
   .acc{border-top:1px solid var(--blue-pale);}
   .acc-head{
     display:flex;align-items:center;justify-content:space-between;
@@ -250,6 +255,8 @@
       ✦ <b>Welcome to Our Private Showroom</b><br>
       為提供每一位毛孩與家人更舒適自在的購物體驗，台中門市採 <b>Private Reservation 預約制</b>，每時段僅接待 1 組貴賓，享有完整專屬空間與專人服務。期待與您共享一段輕鬆而美好的選物時光。
     </div>
+
+    <div class="reminder-box">🔔 預約請提前三天，當天恕不提供預約</div>
 
     <div class="acc">
       <div class="acc-head" onclick="toggleAcc(this)">
@@ -322,7 +329,7 @@
       <button id="nextMonthBtn" onclick="changeMonth(1)">›</button>
     </div>
     <div class="cal-grid" id="calGrid"></div>
-    <div class="hint" style="margin-top:6px;">僅開放平日（一～五）預約，灰色日期為假日或公休</div>
+    <div class="hint" style="margin-top:6px;">僅開放平日（一～五）預約，且需提前一天以上；灰色日期為當天、假日或公休</div>
   </div>
 
   <div class="card" id="slotsCard" style="display:none;">
@@ -436,7 +443,7 @@ function renderCalendar(){
     const dateObj = new Date(viewYear, viewMonth, d);
     const dateStr = fmtDate(dateObj);
     const dow = dateObj.getDay(); // 0=日, 6=六
-    const isPast = dateObj < new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const isPast = dateObj <= new Date(today.getFullYear(),today.getMonth(),today.getDate()); // 含當天，當天不開放預約
     const isBeyondMax = dateObj > MAX_DATE;
     const isWeekend = (dow === 0 || dow === 6); // 只開放平日一～五
     const isHoliday = CLOSED_SET.has(dateStr);
